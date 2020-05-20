@@ -6,14 +6,94 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+  <TextView
+      android:id="@+id/total"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textSize="42sp"
+      android:text="@string/total"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintBottom_toTopOf="@id/tip"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toStartOf="@id/totalAmount"/>
+
+  <TextView
+      android:id="@+id/totalAmount"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textSize="42sp"
+      android:textStyle="bold"
+      android:text="@string/default_bill_amount"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintBottom_toTopOf="@id/tipAmount"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toEndOf="@id/total" />
+
+  <TextView
+      android:id="@+id/tip"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textSize="42sp"
+      android:text="@string/tip"
+      app:layout_constraintTop_toBottomOf="@id/total"
+      app:layout_constraintBottom_toTopOf="@id/billLabel"
+      app:layout_constraintEnd_toEndOf="@id/total"/>
+
+  <TextView
+      android:id="@+id/tipAmount"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textSize="42sp"
+      android:text="@string/default_bill_amount"
+      app:layout_constraintTop_toBottomOf="@id/totalAmount"
+      app:layout_constraintBottom_toTopOf="@id/billLabel"
+      app:layout_constraintStart_toStartOf="@id/totalAmount"/>
+
+  <TextView
+      android:id="@+id/billLabel"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textSize="24sp"
+      android:text="@string/bill"
+      app:layout_constraintTop_toTopOf="@id/billEditText"
+      app:layout_constraintBottom_toBottomOf="@id/billEditText"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toStartOf="@id/billEditText"/>
+
+  <EditText
+      android:id="@+id/billEditText"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:autofillHints="@string/default_bill_amount"
+      android:ems="10"
+      android:gravity="center"
+      android:textSize="24sp"
+      android:hint="@string/default_bill_amount"
+      android:inputType="numberDecimal"
+      app:layout_constraintTop_toBottomOf="@id/tipAmount"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintStart_toEndOf="@id/billLabel"
+      app:layout_constraintEnd_toEndOf="parent"/>
+
+  <TextView
+      android:id="@+id/tipPercentLabel"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textSize="24sp"
+      android:text="@string/tip"
+      android:layout_marginTop="16dp"
+      app:layout_constraintTop_toTopOf="@id/decrement"
+      app:layout_constraintBottom_toBottomOf="@id/decrement"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toStartOf="@id/decrement" />
+
   <Button
       android:id="@+id/decrement"
       android:layout_width="50dp"
       android:layout_height="wrap_content"
       android:text="@string/decrement"
       app:layout_constraintTop_toTopOf="@id/tipPercent"
-      app:layout_constraintEnd_toStartOf="@id/tipPercent"
-      app:layout_constraintStart_toStartOf="parent"/>
+      app:layout_constraintStart_toStartOf="@id/billEditText"/>
 
   <EditText
       android:id="@+id/tipPercent"
@@ -21,12 +101,12 @@
       android:layout_height="wrap_content"
       android:textAlignment="center"
       android:textSize="24sp"
-      android:autofillHints="@string/default_percent"
+      android:layout_marginTop="16dp"
+      android:autofillHints="@string/default_bill_amount"
       android:hint="@string/default_percent"
       android:ems="6"
       android:inputType="number"
-      app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/billEditText"
       app:layout_constraintStart_toEndOf="@id/decrement"
       app:layout_constraintEnd_toStartOf="@id/increment"/>
 
@@ -37,6 +117,7 @@
       android:text="@string/increment"
       app:layout_constraintTop_toTopOf="@id/tipPercent"
       app:layout_constraintStart_toEndOf="@id/tipPercent"
-      app:layout_constraintEnd_toEndOf="parent"/>
+      app:layout_constraintEnd_toEndOf="@id/tipPercent"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
