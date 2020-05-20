@@ -1,0 +1,7 @@
+<resources>
+  <string name="app_name">Tip Calculator</string>
+  <string name="tip">Tip</string>
+  <string name="decrement">-</string>
+  <string name="increment">+</string>
+  <string name="default_percent">0%</string>
+</resources>
