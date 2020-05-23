@@ -39,75 +39,87 @@ import android.text.Editable
 import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import java.text.NumberFormat
+import java.util.*
+import kotlin.properties.Delegates
 
 class MainActivity : AppCompatActivity() {
 
-  private var percent: Int = 15
-  private var totalBill: Double = 0.00
-
-  override fun onCreate(savedInstanceState: Bundle?) {
-    // Switch to AppTheme for displaying the activity
-    setTheme(R.style.AppTheme) // sets the view content and inflates
-
-    super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_main)
-
-    billEditText.addTextChangedListener(object : TextWatcher {
-      override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) { }
-
-      override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) { }
-
-      override fun afterTextChanged(s: Editable) {
-        val currentBill = s.substring(1).toDoubleOrNull()
-        currentBill?.let {
-          recalculateWithUpdatedBill(it)
-        }
-      }
-    })
-
-    tipPercent.addTextChangedListener(object : TextWatcher {
-      override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) { }
-
-      override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) { }
-
-      override fun afterTextChanged(s: Editable) {
-        val tip = s.substring(1).toIntOrNull()
-        tip?.let {
-          recalculateWithUpdatedTip(it)
-        }
-      }
-    })
-
-    decrement.setOnClickListener { minusPercent() }
-    increment.setOnClickListener { addPercent() }
-  }
-
-  private fun recalculateWithUpdatedTip(tipPercent: Int) {
-    percent = tipPercent
-
-    val tip = "${totalBill * (tipPercent/100.0)}%"
-    tipAmount.text = tip
-
-    val currentBill = billEditText.text.toString().toDoubleOrNull()
-    currentBill?.let {
-      val totalBill = "$${percent/100.0 + currentBill}"
-      totalAmount.text = totalBill
+  var percent: Int by Delegates.observable(initialValue = 15) { _, _, newValue ->
+    if (newValue == 0) {
+      tip_amount.text = getString(R.string.zero_percent)
+      tip_edit_percent.hint = getString(R.string.zero_percent)
+    } else {
+      tip_edit_percent.hint = "$newValue%"
+      recalculateWithUpdatedTip(newValue)
     }
   }
 
+  var totalBill: Double by Delegates.observable(initialValue = 0.00) { _, _, newValue ->
+    total_amount.text = billFormat.format(newValue)
+  }
+
+  private val locale = Locale.getDefault()
+  private val currency = Currency.getInstance(locale)
+  private val billFormat = NumberFormat.getCurrencyInstance(locale)
+
+  override fun onCreate(savedInstanceState: Bundle?) {
+    // Switch to AppTheme for displaying the activity
+    setTheme(R.style.AppTheme)
+
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_main) // sets the view content and inflates
+
+    bill_edit_text.addTextChangedListener(object : TextWatcher {
+      var current = ""
+
+      override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) { }
+
+      override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+        val stringText = s.toString()
+
+        when {
+          stringText.isEmpty() -> total_amount.text = getString(R.string.default_bill_amount)
+          stringText != current -> {
+            bill_edit_text.removeTextChangedListener(this)
+
+            val currentBill = stringText.clean(currency).toDouble() / 100
+
+            recalculateWithUpdatedBill(currentBill)
+            current = billFormat.format(currentBill)
+
+            bill_edit_text.apply {
+              setText(current)
+              setSelection(current.length)
+            }
+
+            bill_edit_text.addTextChangedListener(this)
+          }
+        }
+      }
+
+      override fun afterTextChanged(s: Editable) { }
+    })
+
+    tip_edit_percent.addTextChangedListener(TipPercentTextWatcher(percent))
+
+    decrement.setOnClickListener { if (percent > 0) --percent }
+    increment.setOnClickListener { if (percent < 100) ++percent }
+  }
+
+  private fun recalculateWithUpdatedTip(percent: Int) {
+    val tip = calculateTip(totalBill, percent)
+    val bill = bill_edit_text.text
+    val currentBill = if (bill.isEmpty()) 0.00 else bill.substring(1).toDouble()
+    totalBill = tip + currentBill
+
+    tip_amount.text = billFormat.format(tip)
+  }
+
   private fun recalculateWithUpdatedBill(bill: Double) {
-    val tip= bill * (percent/100.0)
+    val tip= calculateTip(bill, percent)
     totalBill = tip + bill
 
-    val updatedBill = "$$totalBill"
-    totalAmount.text = updatedBill
-  }
-
-  private fun addPercent() {
-    if (percent < 100) recalculateWithUpdatedTip(++percent)
-  }
-
-  private fun minusPercent() {
-    if (percent > 0) recalculateWithUpdatedTip(--percent)
+    tip_amount.text = billFormat.format(tip)
   }
 }
