@@ -35,6 +35,7 @@
 package com.raywenderlich.android.tipcalculator
 
 import android.os.Bundle
+import android.text.Editable
 import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -77,6 +78,27 @@ class MainActivity : AppCompatActivity() {
     }
 
     bill_edit_text.addTextChangedListener(tw)
+  }
+
+  private val billTextWatcher = object : TextWatcher {
+    override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+      println("beforeTextChanged - s: $s | start: $start | count $count, after: $after")
+    }
+
+    override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+      println("onTextChanged - s: $s | start: $start | count $count")
+
+      val stringText = s.toString()
+
+      when {
+        stringText.isEmpty() -> totalBill = 0.00
+        else -> stripAndReapplyCurrency(stringText, this)
+      }
+    }
+
+    override fun afterTextChanged(s: Editable) {
+      println("onTextChanged - s: $s")
+    }
   }
 
   private fun recalculateWithUpdatedTip(percent: Int) {
