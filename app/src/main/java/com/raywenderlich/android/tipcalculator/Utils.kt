@@ -37,7 +37,9 @@ package com.raywenderlich.android.tipcalculator
 import java.util.*
 
 fun String.clean(currency: Currency): String =
-    this.replace("[${currency.symbol},.]".toRegex(), "")
+    this.replace(" ", "")
+        .replace("[${currency.symbol},.]".toRegex(), "")
+
 
 fun String.toBill(currency: Currency): Double =
     if (this.isNotEmpty()) this.clean(currency).toDouble() / 100 else 0.00

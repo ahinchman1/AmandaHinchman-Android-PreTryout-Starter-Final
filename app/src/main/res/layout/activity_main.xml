@@ -4,57 +4,73 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="32dp"
     tools:context=".MainActivity">
 
   <TextView
       android:id="@+id/total"
-      android:layout_width="wrap_content"
+      android:layout_width="0dp"
       android:layout_height="wrap_content"
-      android:textSize="42sp"
+      android:layout_marginEnd="16dp"
+      android:textSize="36sp"
       android:text="@string/total"
+      android:textAlignment="center"
+      android:autoSizeMaxTextSize="36dp"
+      app:autoSizeTextType="uniform"
       app:layout_constraintTop_toTopOf="parent"
       app:layout_constraintBottom_toTopOf="@id/tip"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintEnd_toStartOf="@id/total_amount"/>
+      app:layout_constraintEnd_toEndOf="@id/tip"/>
 
   <TextView
       android:id="@+id/total_amount"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:textSize="42sp"
+      android:textSize="36sp"
       android:textStyle="bold"
       android:text="@string/default_bill_amount"
       app:layout_constraintTop_toTopOf="parent"
       app:layout_constraintBottom_toTopOf="@id/tip_amount"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toEndOf="@id/total" />
+      app:layout_constraintStart_toEndOf="@id/total"
+      app:layout_constraintEnd_toEndOf="parent"/>
 
   <TextView
       android:id="@+id/tip"
-      android:layout_width="wrap_content"
+      android:layout_width="0dp"
       android:layout_height="wrap_content"
-      android:textSize="42sp"
+      android:layout_marginEnd="16dp"
+      android:textSize="36sp"
       android:text="@string/tip"
+      android:autoSizeMaxTextSize="36sp"
+      android:textAlignment="center"
+      app:autoSizeTextType="uniform"
       app:layout_constraintTop_toBottomOf="@id/total"
-      app:layout_constraintBottom_toTopOf="@id/bil_label"
-      app:layout_constraintEnd_toEndOf="@id/total"/>
+      app:layout_constraintBottom_toTopOf="@id/bill_label"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toStartOf="@id/tip_amount"/>
 
   <TextView
       android:id="@+id/tip_amount"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:textSize="42sp"
+      android:textSize="36sp"
       android:text="@string/default_bill_amount"
+      android:autoSizeMaxTextSize="36dp"
+      app:autoSizeTextType="uniform"
       app:layout_constraintTop_toBottomOf="@id/total_amount"
-      app:layout_constraintBottom_toTopOf="@id/bil_label"
-      app:layout_constraintStart_toStartOf="@id/total_amount"/>
+      app:layout_constraintBottom_toTopOf="@id/bill_label"
+      app:layout_constraintStart_toStartOf="@id/total_amount"
+      app:layout_constraintEnd_toEndOf="parent"/>
 
   <TextView
-      android:id="@+id/bil_label"
-      android:layout_width="wrap_content"
+      android:id="@+id/bill_label"
+      android:layout_width="0dp"
       android:layout_height="wrap_content"
       android:textSize="24sp"
+      android:autoSizeMaxTextSize="150sp"
       android:text="@string/bill"
+      android:textAlignment="center"
+      app:autoSizeTextType="uniform"
       app:layout_constraintTop_toTopOf="@id/bill_edit_text"
       app:layout_constraintBottom_toBottomOf="@id/bill_edit_text"
       app:layout_constraintStart_toStartOf="parent"
@@ -65,23 +81,28 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:autofillHints="@string/default_bill_amount"
-      android:ems="10"
       android:gravity="center"
       android:textSize="24sp"
       android:hint="@string/default_bill_amount"
+      android:minEms="7"
       android:inputType="numberDecimal"
+      app:autoSizeTextType="uniform"
+      app:layout_constraintHorizontal_bias="1.0"
       app:layout_constraintTop_toBottomOf="@id/tip_amount"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintStart_toEndOf="@id/bil_label"
+      app:layout_constraintVertical_chainStyle="packed"
+      app:layout_constraintBottom_toTopOf="@id/tip_edit_percent"
+      app:layout_constraintStart_toEndOf="@id/bill_label"
       app:layout_constraintEnd_toEndOf="parent"/>
 
   <TextView
       android:id="@+id/tip_percent_label"
-      android:layout_width="wrap_content"
+      android:layout_width="0dp"
       android:layout_height="wrap_content"
       android:textSize="24sp"
       android:text="@string/tip"
       android:layout_marginTop="16dp"
+      android:textAlignment="center"
+      app:autoSizeTextType="uniform"
       app:layout_constraintTop_toTopOf="@id/decrement"
       app:layout_constraintBottom_toBottomOf="@id/decrement"
       app:layout_constraintStart_toStartOf="parent"
@@ -97,16 +118,18 @@
 
   <EditText
       android:id="@+id/tip_edit_percent"
-      android:layout_width="wrap_content"
+      android:layout_width="0dp"
       android:layout_height="wrap_content"
       android:textAlignment="center"
       android:textSize="24sp"
       android:layout_marginTop="16dp"
       android:autofillHints="@string/default_bill_amount"
       android:hint="@string/default_percent"
-      android:ems="6"
       android:inputType="number"
+      android:maxLength="3"
+      app:autoSizeTextType="uniform"
       app:layout_constraintTop_toBottomOf="@id/bill_edit_text"
+      app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintStart_toEndOf="@id/decrement"
       app:layout_constraintEnd_toStartOf="@id/increment"/>
 
@@ -117,7 +140,7 @@
       android:text="@string/increment"
       app:layout_constraintTop_toTopOf="@id/tip_edit_percent"
       app:layout_constraintStart_toEndOf="@id/tip_edit_percent"
-      app:layout_constraintEnd_toEndOf="@id/tip_edit_percent"/>
+      app:layout_constraintEnd_toEndOf="@id/bill_edit_text"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

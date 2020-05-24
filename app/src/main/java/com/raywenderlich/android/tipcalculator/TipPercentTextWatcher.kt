@@ -44,6 +44,7 @@ class TipPercentTextWatcher(var percent: Int) : TextWatcher {
 
   override fun afterTextChanged(s: Editable) {
     val textString = s.toString()
+
     percent = textString.toPercent()
   }
 }

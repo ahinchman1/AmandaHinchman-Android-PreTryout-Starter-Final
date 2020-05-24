@@ -73,8 +73,6 @@ class MainActivity : AppCompatActivity() {
   }
 
   private val billTextWatcher = object : TextWatcher {
-    var current = ""
-
     override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) { }
 
     override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
@@ -82,7 +80,7 @@ class MainActivity : AppCompatActivity() {
 
       when {
         stringText.isEmpty() -> totalBill = 0.00
-        stringText != current -> stripAndReapplyCurrency(stringText, this)
+        else -> stripAndReapplyCurrency(stringText, this)
       }
     }
 
