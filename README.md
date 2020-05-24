@@ -15,16 +15,26 @@ This project covers topics like
 
 ## Getting Started
 
-The master version of the project contains both the starter project and the finished project! Both versions of the application are stored as flavors, which can be toggled in your **Active Build Variant** in Android Studio. 
+To follow along with this RW Tutorial by cloning the `starter-project` branch and checking the `finished` branch to compare your work. 
 
 
+## Working with the master version (combined)
 
+The master version of the project contains both the starter project and the finished project. Both versions of the application are stored as flavors, which can be toggled in your **Active Build Variant** in Android Studio. 
+
+The main project contains shared resources while `src/finalproject` contains code that runs on **finalproject** flavor and `src/startproject` contains code that runs on the **starterproject** flavor.  
 
 starterproject flavor | finalproject flavor
 -- | --
-![before](https://user-images.githubusercontent.com/6917498/81323647-b1f4e480-9063-11ea-911b-2abfaa22e927.gif) | ![after](https://user-images.githubusercontent.com/6917498/81323546-8eca3500-9063-11ea-87c3-033bf1adad3f.gif)
+![before](img/starter.png) | ![after](img/finished.png)
 
-To follow along with this RW Tutorial by cloning the `starter-project` branch and checking the master project in /finished to compare your work. 
+
+Keep in mind that while switching in between the variants, you may have to make sure that the corresponding folder for the variant you are working with has `/java`  marked as a Sources Root file and `/res` marked as a Resources Root. 
+
+The colors of the folder will help indicate which folder has been marked as such:
+
+<img align="center" src="img/rootsources.png" height="480"/>
+
 
 
 ## License
