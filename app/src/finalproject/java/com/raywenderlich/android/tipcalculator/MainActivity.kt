@@ -38,7 +38,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.finalproject.activity_main.*
 import java.text.NumberFormat
 import java.util.*
 import kotlin.properties.Delegates
