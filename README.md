@@ -4,15 +4,14 @@
 
 This beginner-friendly tutorial deep dives into the concept of Android Activity by building a tip calculator inspired by Google's tip calculator solution.
 
+<img src="img/tipcalculator.gif" height="480"/>
+
 This project covers topics like
 
 - The Activity lifecycle
 - ConstraintLayout
 - View interactions
 - Localizing Strings
-
-
-<img src="img/tipcalculator.gif" height="480"/>
 
 ## Getting Started
 
