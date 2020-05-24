@@ -4,7 +4,7 @@
 
 This beginner-friendly tutorial deep dives into the concept of Android Activity by building a tip calculator inspired by Google's tip calculator solution.
 
-<img src="img/tipcalculator.gif" height="480"/>
+<img align="center" src="img/tipcalculator.gif" height="480"/>
 
 This project covers topics like
 
