@@ -37,6 +37,7 @@ package com.raywenderlich.android.tipcalculator
 import android.os.Bundle
 import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
+import kotlinx.android.synthetic.starterproject.activity_main.*
 import java.text.NumberFormat
 import java.util.*
 import kotlin.properties.Delegates
@@ -44,12 +45,12 @@ import kotlin.properties.Delegates
 class MainActivity : AppCompatActivity() {
 
   private var percent: Int by Delegates.observable(initialValue = 15) { _, _, newValue ->
-      tip_edit_percent.hint = "$newValue%"
-      recalculateWithUpdatedTip(newValue)
+    tip_edit_percent.hint = "$newValue%"
+    recalculateWithUpdatedTip(newValue)
   }
 
-  var totalBill: Double by Delegates.observable(initialValue = 0.00) { _, _, newValue ->
-    total_amount.text = billFormat.format(newValue)
+  private var totalBill: Double by Delegates.observable(initialValue = 0.00) { _, _, newValue ->
+      println(newValue)
   }
 
   private val billFormat = NumberFormat.getCurrencyInstance(Locale.getDefault())
@@ -82,14 +83,10 @@ class MainActivity : AppCompatActivity() {
     val currentBill = bill_edit_text.text.toString().toBill()
     val tip = calculateTip(currentBill, percent)
     totalBill = tip + currentBill
-
-    tip_amount.text = billFormat.format(tip)
   }
 
   private fun recalculateWithUpdatedBill(bill: Double) {
     val tip= calculateTip(bill, percent)
     totalBill = tip + bill
-
-    tip_amount.text = billFormat.format(tip)
   }
 }
