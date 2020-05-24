@@ -15,7 +15,7 @@ This project covers topics like
 
 ## Getting Started
 
-To follow along with this RW Tutorial by cloning the `starter-project` branch and checking the `finished` branch to compare your work. 
+To follow along with this RW Tutorial by cloning the `starter_project` branch and checking the `final_project` branch to compare your work. 
 
 
 ## Working with the master version (combined)
