@@ -15,7 +15,7 @@ This project covers topics like
 
 ## Getting Started
 
-The master version of the project contains both the starter project and the finished project! You can follow along with this RW Tutorial by cloning the `starter-project` and checking the master project in /finished to compare your work. 
+To get started, go to the ``
 
 ## License
 

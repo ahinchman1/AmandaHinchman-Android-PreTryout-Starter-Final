@@ -46,11 +46,11 @@ import kotlin.properties.Delegates
 class MainActivity : AppCompatActivity() {
 
   private var percent: Int by Delegates.observable(initialValue = 15) { _, _, newValue ->
-      tip_edit_percent.hint = "$newValue%"
-      recalculateWithUpdatedTip(newValue)
+    tip_edit_percent.hint = "$newValue%"
+    recalculateWithUpdatedTip(newValue)
   }
 
-  var totalBill: Double by Delegates.observable(initialValue = 0.00) { _, _, newValue ->
+  private var totalBill: Double by Delegates.observable(initialValue = 0.00) { _, _, newValue ->
     total_amount.text = billFormat.format(newValue)
   }
 
