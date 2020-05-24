@@ -34,14 +34,10 @@
 
 package com.raywenderlich.android.tipcalculator
 
-import java.util.*
+fun String.clean(): String =
+    this.replace("[\\p{Sc},.\\s]".toRegex(), "")
 
-fun String.clean(currency: Currency): String =
-    this.replace(" ", "")
-        .replace("[${currency.symbol},.]".toRegex(), "")
-
-
-fun String.toBill(currency: Currency): Double =
-    if (this.isNotEmpty()) this.clean(currency).toDouble() / 100 else 0.00
+fun String.toBill(): Double =
+    if (this.isNotEmpty()) this.clean().toDouble() / 100 else 0.00
 
 fun calculateTip(bill: Double, percent: Int): Double = bill * (percent/100.0)

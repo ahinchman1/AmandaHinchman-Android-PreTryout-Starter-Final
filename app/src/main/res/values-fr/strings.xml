@@ -43,5 +43,5 @@
   <string name="increment">+</string>
   <string name="default_percent">15%</string>
   <string name="zero_percent">0%</string>
-  <string name="default_bill_amount">€0,00</string>
+  <string name="default_bill_amount">0,00 €</string>
 </resources>

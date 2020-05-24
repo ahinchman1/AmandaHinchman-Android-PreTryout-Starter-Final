@@ -54,9 +54,7 @@ class MainActivity : AppCompatActivity() {
     total_amount.text = billFormat.format(newValue)
   }
 
-  private val locale = Locale.getDefault()
-  private val currency = Currency.getInstance(locale)
-  private val billFormat = NumberFormat.getCurrencyInstance(locale)
+  private val billFormat = NumberFormat.getCurrencyInstance(Locale.getDefault())
 
   override fun onCreate(savedInstanceState: Bundle?) {
     // Switch to AppTheme for displaying the activity
@@ -90,7 +88,7 @@ class MainActivity : AppCompatActivity() {
   fun stripAndReapplyCurrency(stringText: String, tw: TextWatcher) {
     bill_edit_text.removeTextChangedListener(tw)
 
-    val currentBill = stringText.toBill(currency)
+    val currentBill = stringText.toBill()
 
     recalculateWithUpdatedBill(currentBill)
     val current = billFormat.format(currentBill)
@@ -104,7 +102,7 @@ class MainActivity : AppCompatActivity() {
   }
 
   private fun recalculateWithUpdatedTip(percent: Int) {
-    val currentBill = bill_edit_text.text.toString().toBill(currency)
+    val currentBill = bill_edit_text.text.toString().toBill()
     val tip = calculateTip(currentBill, percent)
     totalBill = tip + currentBill
 
