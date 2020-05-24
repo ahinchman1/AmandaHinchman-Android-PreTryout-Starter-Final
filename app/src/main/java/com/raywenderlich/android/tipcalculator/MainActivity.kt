@@ -65,8 +65,6 @@ class MainActivity : AppCompatActivity() {
   }
 
   fun stripAndReapplyCurrency(stringText: String, tw: TextWatcher) {
-    bill_edit_text.removeTextChangedListener(tw)
-
     val currentBill = stringText.toBill()
 
     recalculateWithUpdatedBill(currentBill)
@@ -76,8 +74,6 @@ class MainActivity : AppCompatActivity() {
       setText(current)
       setSelection(current.length)
     }
-
-    bill_edit_text.addTextChangedListener(tw)
   }
 
   private val billTextWatcher = object : TextWatcher {
@@ -87,13 +83,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
       println("onTextChanged - s: $s | start: $start | count $count")
-
-      val stringText = s.toString()
-
-      when {
-        stringText.isEmpty() -> totalBill = 0.00
-        else -> stripAndReapplyCurrency(stringText, this)
-      }
     }
 
     override fun afterTextChanged(s: Editable) {
