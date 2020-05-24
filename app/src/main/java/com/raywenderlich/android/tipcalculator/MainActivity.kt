@@ -35,7 +35,6 @@
 package com.raywenderlich.android.tipcalculator
 
 import android.os.Bundle
-import android.text.Editable
 import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -51,7 +50,7 @@ class MainActivity : AppCompatActivity() {
   }
 
   private var totalBill: Double by Delegates.observable(initialValue = 0.00) { _, _, newValue ->
-    total_amount.text = billFormat.format(newValue)
+    println(newValue)
   }
 
   private val billFormat = NumberFormat.getCurrencyInstance(Locale.getDefault())
@@ -62,27 +61,6 @@ class MainActivity : AppCompatActivity() {
 
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main) // sets the view content and inflates
-
-    bill_edit_text.addTextChangedListener(billTextWatcher)
-    tip_edit_percent.addTextChangedListener(TipPercentTextWatcher(percent))
-
-    decrement.setOnClickListener { if (percent > 0) --percent }
-    increment.setOnClickListener { if (percent < 100) ++percent }
-  }
-
-  private val billTextWatcher = object : TextWatcher {
-    override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) { }
-
-    override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-      val stringText = s.toString()
-
-      when {
-        stringText.isEmpty() -> totalBill = 0.00
-        else -> stripAndReapplyCurrency(stringText, this)
-      }
-    }
-
-    override fun afterTextChanged(s: Editable) { }
   }
 
   fun stripAndReapplyCurrency(stringText: String, tw: TextWatcher) {
@@ -105,14 +83,10 @@ class MainActivity : AppCompatActivity() {
     val currentBill = bill_edit_text.text.toString().toBill()
     val tip = calculateTip(currentBill, percent)
     totalBill = tip + currentBill
-
-    tip_amount.text = billFormat.format(tip)
   }
 
   private fun recalculateWithUpdatedBill(bill: Double) {
     val tip= calculateTip(bill, percent)
     totalBill = tip + bill
-
-    tip_amount.text = billFormat.format(tip)
   }
 }
