@@ -43,6 +43,10 @@ class TipPercentTextWatcher(var percent: Int) : TextWatcher {
   override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) { }
 
   override fun afterTextChanged(s: Editable) {
-    percent = if (s.isNotEmpty()) s.toPercent() else 0
+    val textString = s.toString()
+    percent = textString.toPercent()
   }
 }
+
+fun String.toPercent(): Int =
+    if (this.isNotEmpty()) this.replace("%", "").toInt() else 0

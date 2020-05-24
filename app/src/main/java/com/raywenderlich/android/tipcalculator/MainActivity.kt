@@ -45,14 +45,9 @@ import kotlin.properties.Delegates
 
 class MainActivity : AppCompatActivity() {
 
-  var percent: Int by Delegates.observable(initialValue = 15) { _, _, newValue ->
-    if (newValue == 0) {
-      tip_amount.text = getString(R.string.zero_percent)
-      tip_edit_percent.hint = getString(R.string.zero_percent)
-    } else {
+  private var percent: Int by Delegates.observable(initialValue = 15) { _, _, newValue ->
       tip_edit_percent.hint = "$newValue%"
       recalculateWithUpdatedTip(newValue)
-    }
   }
 
   var totalBill: Double by Delegates.observable(initialValue = 0.00) { _, _, newValue ->
@@ -70,47 +65,49 @@ class MainActivity : AppCompatActivity() {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main) // sets the view content and inflates
 
-    bill_edit_text.addTextChangedListener(object : TextWatcher {
-      var current = ""
-
-      override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) { }
-
-      override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-        val stringText = s.toString()
-
-        when {
-          stringText.isEmpty() -> total_amount.text = getString(R.string.default_bill_amount)
-          stringText != current -> {
-            bill_edit_text.removeTextChangedListener(this)
-
-            val currentBill = stringText.clean(currency).toDouble() / 100
-
-            recalculateWithUpdatedBill(currentBill)
-            current = billFormat.format(currentBill)
-
-            bill_edit_text.apply {
-              setText(current)
-              setSelection(current.length)
-            }
-
-            bill_edit_text.addTextChangedListener(this)
-          }
-        }
-      }
-
-      override fun afterTextChanged(s: Editable) { }
-    })
-
+    bill_edit_text.addTextChangedListener(billTextWatcher)
     tip_edit_percent.addTextChangedListener(TipPercentTextWatcher(percent))
 
     decrement.setOnClickListener { if (percent > 0) --percent }
     increment.setOnClickListener { if (percent < 100) ++percent }
   }
 
+  private val billTextWatcher = object : TextWatcher {
+    var current = ""
+
+    override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) { }
+
+    override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+      val stringText = s.toString()
+
+      when {
+        stringText.isEmpty() -> totalBill = 0.00
+        stringText != current -> stripAndReapplyCurrency(stringText, this)
+      }
+    }
+
+    override fun afterTextChanged(s: Editable) { }
+  }
+
+  fun stripAndReapplyCurrency(stringText: String, tw: TextWatcher) {
+    bill_edit_text.removeTextChangedListener(tw)
+
+    val currentBill = stringText.toBill(currency)
+
+    recalculateWithUpdatedBill(currentBill)
+    val current = billFormat.format(currentBill)
+
+    bill_edit_text.apply {
+      setText(current)
+      setSelection(current.length)
+    }
+
+    bill_edit_text.addTextChangedListener(tw)
+  }
+
   private fun recalculateWithUpdatedTip(percent: Int) {
-    val tip = calculateTip(totalBill, percent)
-    val bill = bill_edit_text.text
-    val currentBill = if (bill.isEmpty()) 0.00 else bill.substring(1).toDouble()
+    val currentBill = bill_edit_text.text.toString().toBill(currency)
+    val tip = calculateTip(currentBill, percent)
     totalBill = tip + currentBill
 
     tip_amount.text = billFormat.format(tip)

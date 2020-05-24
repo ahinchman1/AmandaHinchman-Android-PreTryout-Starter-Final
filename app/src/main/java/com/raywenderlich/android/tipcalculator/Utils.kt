@@ -34,12 +34,12 @@
 
 package com.raywenderlich.android.tipcalculator
 
-import android.text.Editable
 import java.util.*
 
 fun String.clean(currency: Currency): String =
     this.replace("[${currency.symbol},.]".toRegex(), "")
 
-fun Editable.toPercent(): Int = this.toString().replace("%", "").toInt()
+fun String.toBill(currency: Currency): Double =
+    if (this.isNotEmpty()) this.clean(currency).toDouble() / 100 else 0.00
 
 fun calculateTip(bill: Double, percent: Int): Double = bill * (percent/100.0)
