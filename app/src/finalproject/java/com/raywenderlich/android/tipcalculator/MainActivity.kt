@@ -38,7 +38,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.finalproject.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.*
 import java.text.NumberFormat
 import java.util.*
 import kotlin.properties.Delegates
@@ -46,8 +46,8 @@ import kotlin.properties.Delegates
 class MainActivity : AppCompatActivity() {
 
   private var percent: Int by Delegates.observable(initialValue = 15) { _, _, newValue ->
-      tip_edit_percent.hint = "$newValue%"
-      recalculateWithUpdatedTip(newValue)
+    tip_edit_percent.hint = "$newValue%"
+    recalculateWithUpdatedTip(newValue)
   }
 
   private var totalBill: Double by Delegates.observable(initialValue = 0.00) { _, _, newValue ->
@@ -71,9 +71,12 @@ class MainActivity : AppCompatActivity() {
   }
 
   private val billTextWatcher = object : TextWatcher {
-    override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) { }
+    override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+      println("beforeTextChanged - s: $s | start: $start | count $count, after: $after")
+    }
 
     override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+      println("onTextChanged - s: $s | start: $start | count $count")
       val stringText = s.toString()
 
       when {
@@ -82,7 +85,9 @@ class MainActivity : AppCompatActivity() {
       }
     }
 
-    override fun afterTextChanged(s: Editable) { }
+    override fun afterTextChanged(s: Editable) {
+      println("onTextChanged - s: $s")
+    }
   }
 
   fun stripAndReapplyCurrency(stringText: String, tw: TextWatcher) {

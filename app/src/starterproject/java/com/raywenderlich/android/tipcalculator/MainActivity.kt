@@ -35,9 +35,10 @@
 package com.raywenderlich.android.tipcalculator
 
 import android.os.Bundle
+import android.text.Editable
 import android.text.TextWatcher
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.starterproject.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.*
 import java.text.NumberFormat
 import java.util.*
 import kotlin.properties.Delegates
@@ -50,7 +51,7 @@ class MainActivity : AppCompatActivity() {
   }
 
   private var totalBill: Double by Delegates.observable(initialValue = 0.00) { _, _, newValue ->
-      println(newValue)
+    println(newValue)
   }
 
   private val billFormat = NumberFormat.getCurrencyInstance(Locale.getDefault())
@@ -64,8 +65,6 @@ class MainActivity : AppCompatActivity() {
   }
 
   fun stripAndReapplyCurrency(stringText: String, tw: TextWatcher) {
-    bill_edit_text.removeTextChangedListener(tw)
-
     val currentBill = stringText.toBill()
 
     recalculateWithUpdatedBill(currentBill)
@@ -75,8 +74,20 @@ class MainActivity : AppCompatActivity() {
       setText(current)
       setSelection(current.length)
     }
+  }
 
-    bill_edit_text.addTextChangedListener(tw)
+  private val billTextWatcher = object : TextWatcher {
+    override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+      println("beforeTextChanged - s: $s | start: $start | count $count, after: $after")
+    }
+
+    override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+      println("onTextChanged - s: $s | start: $start | count $count")
+    }
+
+    override fun afterTextChanged(s: Editable) {
+      println("onTextChanged - s: $s")
+    }
   }
 
   private fun recalculateWithUpdatedTip(percent: Int) {
